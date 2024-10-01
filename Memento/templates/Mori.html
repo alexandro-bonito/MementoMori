@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memento Mori</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <img src="{% static 'bg.jpeg' %}" alt="background image" class="background-img">
+
+    <header>
+        <div class="language-switcher">
+            <select id="language-select" onchange="switchLanguage()">
+                <option value="fr">FR</option>
+                <option value="en">EN</option>
+            </select>
+        </div>
+        <h1 id="main-title">Découvrez la richesse, devenez meilleur et réalisez vos rêves</h1>
+    </header>
+
+    <main>
+        <a  class="btn" href="{% url 'Memenfos' %}">Découvrir</a>    
+    </main>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

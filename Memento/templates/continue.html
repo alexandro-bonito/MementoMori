@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminer</title>
+    <style>
+        body {
+            background-color: #121212; 
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], input[type="file"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #292929;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #333;
+            background-color: #1e1e1e;
+        }
+
+        th {
+            background-color: #292929;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vous recevrez une clé par WhatsApp après 2h de traitement</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="capture_paiement">Capture d'écran du paiement:</label>
+        <input type="file" id="capture_paiement" name="capture_paiement" required>
+
+        <label for="mot_secret">Mot Secret:</label>
+        <input type="text" id="mot_secret" name="mot_secret" required>
+
+        <label for="objectif">Objectif:</label>
+        <input type="text" id="objectif" name="objectif" required>
+
+        <label for="desir_a_realiser">Désir à réaliser:</label>
+        <textarea id="desir_a_realiser" name="desir_a_realiser" rows="4" required></textarea>
+
+        <button type="submit">Soumettre</button>
+    </form>
+
+    <h2>Mes Paiements</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Capture d'écran</th>
+                <th>Mot Secret</th>
+                <th>Objectif</th>
+                <th>Désir à réaliser</th>
+                <th>Date d'ajout</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in user_payments %}
+            <tr>
+                <td><img src="{{ payment.capture_paiement.url }}" alt="Capture d'écran" style="width: 100px; height: auto;"></td>
+                <td>{{ payment.mot_secret }}</td>
+                <td>{{ payment.objectif }}</td>
+                <td>{{ payment.desir_a_realiser }}</td>
+                <td>{{ payment.date_ajout }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Aucun paiement trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

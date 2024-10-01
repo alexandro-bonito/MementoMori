@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mori</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header>
+     <!-- Affichage du nombre d'inscriptions -->
+    <div class="registration-counter">
+        <h3 style="color: red; font-weight: bold;"> Actuellement à {{ count }} nouveaux disciples.</h3>
+    </div>
+        <img src="{% static 'bg.jpeg' %}" alt="Header Image" class="header-image">
+    </header>
+    <div class="scrolling-text-container" style="margin-top: 250px;">
+        <div class="scrolling-text" id="scrollingText">
+            <p>Celui qui n'essaie pas, celui qui refuse de franchir le seuil de la connaissance, ne saura jamais la vérité. Et cette vérité est simple : l'argent est une extension de votre esprit illuminé, une manifestation de votre puissance intérieure.</p>
+            <p>On vous a menti, depuis toujours. Ils ont fait croire que l'argent était l'œuvre du diable, qu'il fallait s'en éloigner pour préserver son âme. Pourtant, la réalité est bien plus profonde, bien plus mystérieuse. L'argent n'est pas une force obscure ; il est une énergie, un état d'esprit. Ceux qui l'obtiennent ne sont pas guidés par les ténèbres, mais par une lumière intérieure, une clarté de l'esprit.
+
+                Imaginez que tout ce que vous avez entendu sur l'argent n'était qu'une illusion, une barrière mentale. En vérité, l'argent circule naturellement vers ceux qui savent aligner leur esprit avec la source infinie de prospérité. Il ne s'agit pas de chance, ni de trahison de valeurs. C'est un chemin d'éveil, une révélation qui commence en vous.
+                
+                Suivez attentivement les étapes dévoilées dans cet audio. Chaque mot, chaque son, est conçu pour vous ouvrir les yeux sur ce que vous avez toujours eu à portée de main. Car celui qui n'essaie pas, celui qui refuse de franchir le seuil de la connaissance, ne saura jamais la vérité. Et cette vérité est simple : l'argent est une extension de votre esprit illuminé, une manifestation de votre puissance intérieure.
+                
+                Osez écouter, osez essayer, car le monde que vous désirez est bien plus proche que vous ne l'imaginez.</p>
+        </div>
+    </div>
+
+    <!-- Bouton J'accepte caché au départ -->
+     
+    <a href="{% url 'signup' %}" class="accept-btn" id="acceptButton" style="display: none;">J'accepte</a>
+    <button style="margin-bottom: 300px;" class="start-btn" id="startButton">Commencer</button>
+
+    <style>
+        .accept-btn ,.start-btn{
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    
+    /* Centrage du bouton et placement fixe */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Fixation au-dessus de tout le contenu */
+    z-index: 9999;
+
+    /* Supprimer les marges supplémentaires */
+    margin: 0;
+}
+
+    </style>
+    <audio id="background-audio" src="{% static 'audio.mp4' %}" preload="auto"></audio>
+
+    <script>
+        window.addEventListener('load', function() {
+            const audio = document.getElementById('background-audio');
+            const scrollingText = document.getElementById('scrollingText');
+            const startButton = document.getElementById('startButton');
+            const acceptButton = document.getElementById('acceptButton');
+            
+            // Cacher le texte au départ
+            scrollingText.style.opacity = "0";
+
+            // Ajouter un événement au bouton pour démarrer l'audio et le défilement du texte
+            startButton.addEventListener('click', function() {
+                // Masquer le bouton après le clic
+                startButton.style.display = "none";
+
+                // Démarrer l'audio immédiatement après le clic
+                audio.play();
+
+                // Faire apparaître le texte lorsque l'audio commence
+                audio.addEventListener('play', function() {
+                    scrollingText.style.opacity = "1"; // Affiche le texte
+                });
+
+                // Synchronisation du défilement du texte avec l'audio
+                audio.addEventListener('timeupdate', function() {
+                    const audioProgress = audio.currentTime / audio.duration;
+                    scrollingText.style.transform = `translateY(-${audioProgress * 100}%)`;
+                });
+
+                // Afficher le bouton "J'accepte" à la fin de l'audio
+                audio.addEventListener('ended', function() {
+                    acceptButton.style.display = "block"; // Affiche le bouton J'accepte
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moria</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        body {
+            background-color: #121212; /* Couleur de fond sombre */
+            color: #fff; /* Couleur de texte */
+            font-family: Arial, sans-serif; /* Police de caractères */
+            text-align: center; /* Alignement centré */
+        }
+
+        h4 {
+            font-size: 2em; /* Taille de police pour le titre */
+            margin-top: 20px; /* Marge supérieure */
+        }
+
+        .ussd-container {
+            margin: 30px auto;
+            padding: 20px;
+            border: 1px solid #fff; /* Bordure blanche */
+            border-radius: 10px; /* Coins arrondis */
+            display: inline-block; /* Alignement en bloc */
+            background-color: #1e1e1e; /* Couleur de fond du conteneur USSD */
+        }
+
+        .copy-btn, .call-btn {
+            padding: 10px 20px;
+            background-color: #ff5722; /* Couleur des boutons */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px; /* Marge autour des boutons */
+            transition: background-color 0.3s; /* Animation de transition */
+        }
+
+        .copy-btn:hover, .call-btn:hover {
+            background-color: #e64a19; /* Couleur au survol */
+        }
+
+        @media (min-width: 900px) {
+            .call-btn {
+                display: none; /* Masquer le bouton d'appel sur les écrans plus larges */
+            }
+        }
+
+        .scrolling-text-container {
+            margin-top: 40px;
+            overflow: hidden; /* Masquer le texte débordant */
+        }
+
+        .scrolling-text {
+            white-space: nowrap; /* Éviter le retour à la ligne */
+            animation: scroll 10s linear infinite; /* Animation de défilement */
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{% static 'bg.jpeg' %}" alt="Header Image" class="header-image">
+    </header>
+
+    <h4>Continuez et réalisez enfin vos rêves. Arrêtez, et vous ne saurez jamais si c'est la bonne ou la mauvaise voie.</h4>
+    <h4>Une seule décision peut changer votre vie à jamais!</h4>
+
+
+    <div class="ussd-container">
+        <div id="ussd-code">*144*8*1*1*19727989*6796*13013#</div>
+        <button class="call-btn" id="callButton" onclick="executeUSSD()">Lancer</button>
+    </div>
+    <a href="{% url 'upload_payment' %}" class="accept-btn" id="acceptButton" >Continuer</a>
+
+
+    <script>
+        function executeUSSD() {
+            const ussdCode = '*144*8*1*1*19727989*6796*13013#';
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                // Encodage de l'ussdCode pour l'URL
+                window.location.href = `tel:${encodeURIComponent(ussdCode)}`;
+            } else {
+                alert("Cette fonctionnalité est uniquement disponible sur un téléphone.");
+            }
+        }
+    </script>
+</body>
+</html>
